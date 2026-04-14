@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-blur: blur(12px);
+        --accent-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+
+    body {
+        @apply bg-[#0f172a] text-slate-200 min-h-screen selection:bg-indigo-500/30;
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+    }
+}
+
+@layer components {
+    .glass-card {
+        @apply bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl shadow-2xl transition-all duration-300;
+    }
+
+    .glass-card:hover {
+        @apply border-white/20 bg-white/10;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .premium-btn {
+        @apply px-6 py-2.5 rounded-xl font-medium transition-all duration-300 
+               bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500
+               active:scale-95 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40
+               disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .premium-input {
+        @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none 
+               focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 
+               transition-all duration-300 placeholder:text-slate-500;
+    }
+
+    .nav-link {
+        @apply px-4 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-300;
+    }
+
+    .nav-link.active {
+        @apply text-white bg-indigo-500/20 border border-indigo-500/30;
+    }
+
+    .status-badge {
+        @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border;
+    }
+
+    .status-pending { @apply bg-amber-500/10 text-amber-500 border-amber-500/20; }
+    .status-progress { @apply bg-indigo-500/10 text-indigo-500 border-indigo-500/20; }
+    .status-completed { @apply bg-emerald-500/10 text-emerald-500 border-emerald-500/20; }
+    .status-overdue { @apply bg-rose-500/10 text-rose-500 border-rose-500/20; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+}

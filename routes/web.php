@@ -46,11 +46,17 @@ Route::post('/settings', function (\Illuminate\Http\Request $request) {
     $user = auth()->user();
 
     $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
         'show_email' => $request->has('show_email'),
         'show_phone' => $request->has('show_phone'),
+        'notify_email' => $request->has('notify_email'),
+        'notify_sms' => $request->has('notify_sms'),
+        'notify_call' => $request->has('notify_call'),
     ]);
 
-    return back()->with('success', 'Settings updated');
+    return back()->with('success', 'Settings updated successfully!');
 })->middleware('auth');
 
 Route::get('/notifications/{id}/read', function ($id) {
@@ -60,8 +66,26 @@ Route::get('/notifications/{id}/read', function ($id) {
     return redirect('/dashboard');
 })->middleware('auth');
 
-Route::get('/logs', function () {
-    $logs = \App\Models\Log::with('task')->latest()->get();
+Route::get('/members', function () {
+    $members = \App\Models\User::all();
+    return view('members', compact('members'));
+})->middleware('auth');
+
+Route::get('/logs', function (Illuminate\Http\Request $request) {
+    $filter = $request->query('filter', 'all');
+    $query = \App\Models\Log::with(['task', 'user'])->latest();
+
+    if ($filter == 'hourly') {
+        $query->where('created_at', '>=', now()->subHour());
+    } elseif ($filter == 'daily') {
+        $query->where('created_at', '>=', now()->subDay());
+    } elseif ($filter == 'monthly') {
+        $query->where('created_at', '>=', now()->subMonth());
+    } elseif ($filter == 'yearly') {
+        $query->where('created_at', '>=', now()->subYear());
+    }
+
+    $logs = $query->get();
     return view('logs', compact('logs'));
 })->middleware('admin');
 

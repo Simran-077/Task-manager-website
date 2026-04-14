@@ -22,8 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
         'show_email',
-        'show_phone'
+        'show_phone',
+        'notify_email',
+        'notify_sms',
+        'notify_call',
+        'role'
     ];
 
     /**
@@ -57,6 +62,33 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public function canSeeInfoOf(User $user)
+    {
+        // Admin can always see
+        if ($this->isAdmin()) return true;
+        
+        // Users can see their own info
+        if ($this->id === $user->id) return true;
+
+        return false;
+    }
+
+    public function getVisibleEmail(User $viewer)
+    {
+        if ($viewer->isAdmin() || $this->show_email || $viewer->id === $this->id) {
+            return $this->email;
+        }
+        return 'Private';
+    }
+
+    public function getVisiblePhone(User $viewer)
+    {
+        if ($viewer->isAdmin() || $this->show_phone || $viewer->id === $this->id) {
+            return $this->phone ?? 'Not set';
+        }
+        return 'Private';
     }
 }
 
