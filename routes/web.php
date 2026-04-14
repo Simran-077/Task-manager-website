@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeamController;
+use Illuminate\Support\Facades\DB;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -72,3 +74,8 @@ Route::post('/tasks/{id}/comment', function (Illuminate\Http\Request $request, $
 
     return back();
 })->middleware('auth');
+
+
+Route::get('/tables', function () {
+    return DB::select("SELECT tablename FROM pg_tables WHERE schemaname='public'");
+});
