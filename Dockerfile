@@ -49,5 +49,6 @@ RUN php artisan storage:link
 
 EXPOSE 10000
 
-# Run migrations and start the server
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
+# Run migrations, seed the database, and start the server
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=10000
+
