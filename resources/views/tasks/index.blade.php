@@ -103,7 +103,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="flex items-center justify-end space-x-2">
                                     @if($task->status !== 'completed')
                                         <form method="POST" action="/tasks/{{ $task->id }}/status">
                                             @csrf

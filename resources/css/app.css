@@ -10,11 +10,24 @@
         --accent-glow: 0 0 20px rgba(99, 102, 241, 0.4);
     }
 
+    .light {
+        --glass-bg: rgba(255, 255, 255, 0.9);
+        --glass-border: rgba(0, 0, 0, 0.1);
+        --glass-blur: blur(8px);
+    }
+
     body {
-        @apply bg-[#0f172a] text-slate-200 min-h-screen selection:bg-indigo-500/30;
+        @apply bg-[#0f172a] text-slate-200 min-h-screen selection:bg-indigo-500/30 transition-colors duration-500;
         background-image: 
             radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
             radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+    }
+
+    .light body {
+        @apply bg-slate-50 text-slate-900;
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 40%),
+            radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 40%);
     }
 }
 
@@ -23,9 +36,33 @@
         @apply bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl shadow-2xl transition-all duration-300;
     }
 
+    .light .glass-card {
+        @apply bg-white border-slate-200 shadow-lg;
+    }
+
     .glass-card:hover {
         @apply border-white/20 bg-white/10;
         box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .light .glass-card:hover {
+        @apply border-indigo-500/30 bg-white shadow-xl shadow-indigo-500/5;
+    }
+
+    .light .text-slate-400, .light .text-slate-500 {
+        @apply text-slate-600;
+    }
+
+    .light .text-white {
+        @apply text-slate-900;
+    }
+
+    .light .bg-white\/5 {
+        @apply bg-slate-100;
+    }
+
+    .light .border-white\/5, .light .border-white\/10 {
+        @apply border-slate-200;
     }
 
     .premium-btn {

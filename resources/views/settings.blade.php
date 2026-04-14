@@ -104,6 +104,31 @@
             </div>
         </div>
 
+        <div class="glass-card p-6">
+            <h2 class="text-lg font-semibold text-white mb-6 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.828 2.828a2 2 0 010 2.828l-8.486 8.485M7 17l.01.01"></path></svg>
+                Appearance & Theme
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <label class="p-4 rounded-2xl border border-white/5 bg-white/5 hover:border-indigo-500/30 cursor-pointer transition-all flex items-center space-x-4">
+                    <input type="radio" name="theme" value="dark" {{ auth()->user()->theme == 'dark' ? 'checked' : '' }}>
+                    <div>
+                        <span class="block font-medium text-white">Midnight (Dark)</span>
+                        <span class="text-xs text-slate-400">Deep indigo and violet gradients.</span>
+                    </div>
+                </label>
+
+                <label class="p-4 rounded-2xl border border-white/5 bg-white/5 hover:border-indigo-500/30 cursor-pointer transition-all flex items-center space-x-4">
+                    <input type="radio" name="theme" value="light" {{ auth()->user()->theme == 'light' ? 'checked' : '' }}>
+                    <div>
+                        <span class="block font-medium text-white">Cloud (Light)</span>
+                        <span class="text-xs text-slate-400">Clean, crisp, and bright layout.</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
         <div class="flex justify-end">
             <button type="submit" class="premium-btn">
                 Save All Settings

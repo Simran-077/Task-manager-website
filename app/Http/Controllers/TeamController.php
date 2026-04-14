@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
-   public function create()
-{
-    $users = User::all();
-    return view('teams.create', compact('users'));
-}
+    public function index()
+    {
+        $teams = Team::with('members')->latest()->get();
+        return view('teams.index', compact('teams'));
+    }
+
+    public function create()
+    {
+        $users = User::all();
+        return view('teams.create', compact('users'));
+    }
 
 public function store(Request $request)
 {

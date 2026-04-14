@@ -35,6 +35,7 @@ Route::post('/tasks/{id}/status', [TaskController::class, 'updateStatus'])->midd
 Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->middleware('auth');
 Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->middleware('auth');
 Route::put('/tasks/{id}', [TaskController::class, 'update'])->middleware('auth');
+Route::get('/teams', [TeamController::class, 'index'])->middleware('admin');
 Route::get('/teams/create', [TeamController::class, 'create'])->middleware('admin');
 Route::post('/teams', [TeamController::class, 'store'])->middleware('admin');
 
@@ -54,6 +55,7 @@ Route::post('/settings', function (\Illuminate\Http\Request $request) {
         'notify_email' => $request->has('notify_email'),
         'notify_sms' => $request->has('notify_sms'),
         'notify_call' => $request->has('notify_call'),
+        'theme' => $request->theme,
     ]);
 
     return back()->with('success', 'Settings updated successfully!');

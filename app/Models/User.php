@@ -28,7 +28,8 @@ class User extends Authenticatable
         'notify_email',
         'notify_sms',
         'notify_call',
-        'role'
+        'role',
+        'theme'
     ];
 
     /**

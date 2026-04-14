@@ -74,8 +74,8 @@ public function index(Request $request)
 
         $user = User::find($request->assigned_to);
 
-        if ($user && $user->notify_email) {
-            Mail::to($user->email)->send(new TaskAssignedMail($task));
+        if ($user) {
+            \App\Services\AlertService::sendTaskAlert($user, $task);
         }
 
         Notification::create([
