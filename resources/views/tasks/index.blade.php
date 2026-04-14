@@ -51,55 +51,51 @@
     <div class="glass-card overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left">
+            <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-white/5 bg-white/5">
-                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Assignment</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Assigned To</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Timeline</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                    <tr class="border-b border-white/5 bg-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                        <th class="px-6 py-4">Assignment</th>
+                        <th class="px-6 py-4">Assigned To</th>
+                        <th class="px-6 py-4">Timeline</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
                     @forelse($tasks as $task)
-                        <tr class="group hover:bg-white/5 transition-colors">
+                        <tr class="group hover:bg-white/5 transition-all duration-300">
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-1.5 h-8 rounded-full {{ $task->priority == 'high' ? 'bg-rose-500' : ($task->priority == 'medium' ? 'bg-amber-500' : 'bg-emerald-500') }}"></div>
+                                    <div class="w-1.5 h-10 rounded-full {{ $task->priority === 'high' ? 'bg-rose-500' : ($task->priority === 'medium' ? 'bg-amber-500' : 'bg-emerald-500') }}"></div>
                                     <div>
-                                        <p class="font-bold text-white group-hover:text-indigo-400 transition-colors">{{ $task->title }}</p>
-                                        <p class="text-xs text-slate-500">{{ $task->team->name ?? 'Global' }}</p>
+                                        <div class="font-bold text-white group-hover:text-indigo-400 transition-colors">{{ $task->title }}</div>
+                                        <div class="text-[10px] text-slate-500 uppercase tracking-tight">Global</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs text-indigo-400 font-bold">
-                                        {{ substr($task->assignedUser->name, 0, 1) }}
+                                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center font-bold text-xs text-indigo-400">
+                                        {{ substr($task->assignedUser->name ?? '?', 0, 1) }}
                                     </div>
                                     <div>
-                                        <p class="text-sm font-medium text-slate-300">{{ $task->assignedUser->name }}</p>
-                                        <p class="text-[10px] text-slate-500">{{ $task->assignedUser->getVisibleEmail(auth()->user()) }}</p>
+                                        <div class="text-sm font-medium text-slate-300">{{ $task->assignedUser->name ?? 'Unassigned' }}</div>
+                                        <div class="text-[10px] text-slate-500">{{ $task->assignedUser->email ?? '' }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex flex-col">
-                                    <span class="text-sm {{ now()->gt($task->deadline) && $task->status != 'completed' ? 'text-rose-400 font-bold' : 'text-slate-300' }}">
-                                        {{ $task->deadline ? $task->deadline->format('M d, Y') : 'No deadline' }}
-                                    </span>
-                                    <span class="text-[10px] text-slate-500 uppercase tracking-widest">
-                                        {{ $task->deadline ? $task->deadline->addDay()->diffForHumans() : '' }}
-                                    </span>
+                                <div class="text-sm text-slate-300">{{ $task->deadline ? $task->deadline->format('M d, Y') : 'No date' }}</div>
+                                <div class="text-[10px] font-bold {{ $task->deadline && $task->deadline->isPast() && $task->status !== 'completed' ? 'text-rose-500' : 'text-slate-500' }} uppercase tracking-tight">
+                                    {{ $task->deadline ? $task->deadline->diffForHumans() : '' }}
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                @if(now()->gt($task->deadline) && $task->status != 'completed')
-                                    <span class="status-badge status-overdue">Overdue</span>
-                                @else
-                                    <span class="status-badge {{ 'status-'.$task->status }}">
-                                        {{ $task->status }}
-                                    </span>
+                                <span class="status-badge status-{{ $task->status }}">
+                                    {{ $task->status }}
+                                </span>
+                                @if($task->deadline && $task->deadline->isPast() && $task->status !== 'completed')
+                                    <span class="status-badge status-overdue ml-2">OVERDUE</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
@@ -114,19 +110,17 @@
                                         </form>
                                     @endif
                                     
-                                    <a href="/tasks/{{ $task->id }}/edit" title="Edit" class="w-8 h-8 rounded-lg bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center">
+                                    <a href="/tasks/{{ $task->id }}/edit" title="Edit Task" class="w-8 h-8 rounded-lg bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                     </a>
 
-                                    @if(auth()->user()->isAdmin())
-                                        <form method="POST" action="/tasks/{{ $task->id }}" onsubmit="return confirm('Archive this assignment?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button title="Delete" class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </button>
-                                        </form>
-                                    @endif
+                                    <form method="POST" action="/tasks/{{ $task->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button title="Delete" class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

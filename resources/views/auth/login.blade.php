@@ -32,20 +32,21 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('register') }}">
-                {{ __('Register') }}
+        <div class="flex items-center justify-between mt-8">
+            <a class="text-sm text-indigo-400 hover:text-white transition-colors font-medium" href="{{ route('register') }}">
+                {{ __('New here? Register') }}
             </a>
 
             @if (Route::has('password.request'))
-                <a class="ms-3 underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+                <a class="text-sm text-slate-500 hover:text-slate-300 transition-colors" href="{{ route('password.request') }}">
+                    {{ __('Forgot password?') }}
                 </a>
             @endif
+        </div>
 
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
+        <div class="mt-8">
+            <x-primary-button>
+                {{ __('Sign In to Dashboard') }}
             </x-primary-button>
         </div>
     </form>
