@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     libzip-dev \
     zip \
-    && docker-php-ext-install pdo pdo_sqlite pdo_mysql zip
+    && docker-php-ext-install pdo pdo_sqlite pdo_mysql pdo_pgsql zip
+
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
